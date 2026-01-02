@@ -5,7 +5,7 @@ pipeline {
         // IP Server Kantor (VPS Anda)
         SERVER_IP = '103.181.142.253'
         // Folder Project di Server
-        REMOTE_DIR = '/home/jawaracode-core/proyek-kantor'
+        REMOTE_DIR = '/home/jawaracode-core/project/proyek-kantor'
     }
 
     stages {

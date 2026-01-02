@@ -2,16 +2,24 @@ pipeline {
     agent any
 
     environment {
-        // IP Server Kantor (VPS Anda)
         SERVER_IP = '103.181.142.253'
-        // Folder Project di Server
         REMOTE_DIR = '/home/jawaracode-core/project/proyek-kantor'
     }
 
     stages {
+        stage('Manual Approval') {
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') {
+                        input message: 'Apakah Anda yakin ingin deploy update ini ke VPS Production?', ok: 'Ya, Deploy Sekarang!'
+                    }
+                }
+            }
+        }
+        
         stage('Deploy to Office Server') {
             steps {
-                echo '=== MULAI DEPLOYMENT ==='
+                echo '=== IZIN DITERIMA. MEMULAI DEPLOYMENT'
                 withCredentials([sshUserPrivateKey(credentialsId: 'vps-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     script {
                         def remoteCmd = """
@@ -28,7 +36,6 @@ pipeline {
                             docker compose ps
                         """
                         
-                        // Eksekusi Remote SSH
                         sh "ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@${SERVER_IP} '${remoteCmd}'"
                     }
                 }

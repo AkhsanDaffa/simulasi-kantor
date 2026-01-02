@@ -22,7 +22,7 @@ pipeline {
                             git pull origin main
                             
                             echo "--- 3. Docker Compose Up (Restart Service) ---"
-                            docker compose up -d --build
+                            docker compose up -d --build --force-recreate
                             
                             echo "--- 4. Cek Status ---"
                             docker compose ps

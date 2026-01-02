@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
+        // IP Server Kantor (VPS Anda)
         SERVER_IP = '103.181.142.253'
+        // Folder Project di Server
         REMOTE_DIR = '/home/jawaracode-core/proyek-kantor'
     }
 
@@ -15,18 +17,18 @@ pipeline {
                         def remoteCmd = """
                             echo "--- 1. Masuk Folder Proyek ---"
                             cd ${REMOTE_DIR}
-
+                            
                             echo "--- 2. Git Pull (Update Kodingan) ---"
                             git pull origin main
-
+                            
                             echo "--- 3. Docker Compose Up (Restart Service) ---"
-                            # --build untuk memastikan perubahan terupdate
                             docker compose up -d --build
-
+                            
                             echo "--- 4. Cek Status ---"
                             docker compose ps
                         """
-
+                        
+                        // Eksekusi Remote SSH
                         sh "ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@${SERVER_IP} '${remoteCmd}'"
                     }
                 }

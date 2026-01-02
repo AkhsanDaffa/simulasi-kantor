@@ -7,7 +7,7 @@ pipeline {
     }
 
     stages {
-        stages('Deploy to Office Server') {
+        stage('Deploy to Office Server') {
             steps {
                 echo '=== MULAI DEPLOYMENT ==='
                 withCredentials([sshUserPrivateKey(credentialsId: 'vps-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {

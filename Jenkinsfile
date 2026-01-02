@@ -28,10 +28,9 @@ pipeline {
                         """
 
                         sh "ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@${SERVER_IP} '${remoteCmd}'"
+                    }
                 }
-
             }
         }
     }
-}
 }
